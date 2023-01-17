@@ -1,0 +1,45 @@
+---
+title: "ggcuminc"
+author: "김진섭"
+format: 
+  html:
+    self-contained: true
+    df-print: kable
+editor: visual
+editor_options: 
+  chunk_output_type: console
+execute:
+  keep-md: true
+---
+
+## Package
+
+```{r}
+#install.packages(c("ggsurvfit", "tidycmprsk"))
+library(ggsurvfit)
+library(tidycmprsk) ## for cuminc function
+```
+
+## example data : tt
+
+```{r, echo = T}
+tt <- trial %>% dplyr::mutate(death_cr_int = factor(ifelse(death_cr == "death from cancer", 1, ifelse(death_cr == "censor", 0, 2))))
+
+tt[, c(1,  8, 10, 9)] %>% head(10)
+```
+
+## Run
+
+```{r}
+ci_TVF_PM <- tidycmprsk::cuminc(Surv(ttdeath, death_cr_int) ~ trt, data = tt)
+
+ggcuminc(ci_TVF_PM, outcome = "1") + ylim(0, 0.2) + xlim(0, 20) + xlab("Days") + ylab("Cumulative incidence of event") + ggtitle("Death by ulceration") + theme(legend.position = "top") +
+  scale_color_discrete(labels = c("A", "B")) + 
+  add_risktable(risktable_stats = c("n.risk"), times = seq(0, 20, by = 3), 
+                stats_label = list(n.risk = "Number at Risk")) +
+  scale_x_continuous(breaks = seq(0, 20, by = 3))
+
+
+  
+
+```
