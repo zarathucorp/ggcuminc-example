@@ -2,7 +2,6 @@
 
 ## Package
 
-::: cell
 ``` {.r .cell-code}
 #install.packages(c("ggsurvfit", "tidycmprsk"))
 library(ggsurvfit)
@@ -47,7 +46,4 @@ ggcuminc(ci_TVF_PM, outcome = "1") + ylim(0, 0.2) + xlim(0, 20) + xlab("Days") +
 ```
 
 
-::: cell-output-display
 ![](README_files/figure-html/unnamed-chunk-3-1.png){width="672"}
-:::
-:::
